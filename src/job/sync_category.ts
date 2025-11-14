@@ -3,6 +3,7 @@ import {update_table_record} from "./sync_job";
 import {MoreThan} from "typeorm";
 import {dim_category} from "../entity/dim_category";
 import {category_sync_with_sqlite} from "../migration/load_sync_category";
+import {compareRecordField} from "../migration/compareRecordField";
 
 export async function update_category_table(): Promise<void> {
 
@@ -39,12 +40,4 @@ export async  function add_update_actor(row: any, manager: any): Promise<void> {
     {
         await category_sync_with_sqlite(row, manager);
     }
-}
-
-function compareRecordField(value_one: any, value_two: any): boolean {
-    // handle Date comparison
-    if (value_one instanceof Date && value_two instanceof Date) {
-        return value_one.getTime() === value_two.getTime();
-    }
-    return value_one === value_two;
 }

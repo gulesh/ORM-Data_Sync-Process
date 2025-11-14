@@ -1,6 +1,7 @@
 import {sync_table} from "../entity/sync_table";
 import {update_actor_table} from "./sync_actor";
 import {update_category_table} from "./sync_category";
+import {update_customer_table} from "./sync_customer";
 
 const tables = [
     "film",
@@ -24,10 +25,14 @@ export async function sync_job(){
     console.log("sync job Starting...");
 
     //await update_actor_table();
-    console.log("synced actor table!");
+    //console.log("synced actor table!");
 
-    await update_category_table();
-    console.log("synced category table!");
+    //await update_category_table();
+    //console.log("synced category table!");
+
+    await update_customer_table();
+    console.log("synced customer table!");
+
 
 }
 
