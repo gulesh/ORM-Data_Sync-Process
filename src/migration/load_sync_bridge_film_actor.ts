@@ -2,6 +2,7 @@
 import {getAllRepositoryDataMySql} from "./repository_data";
 import { outgoingSourceDB} from "../data-source";
 import {bridge_film_actor} from "../entity/bridge_film_actor";
+import {add_table_record} from "../job/sync_job";
 
 export async function sync_bridge_film_actor_table(): Promise<void> {
     const film_actor_pairs  = await getAllRepositoryDataMySql('film_actor');
@@ -9,6 +10,9 @@ export async function sync_bridge_film_actor_table(): Promise<void> {
         for (const film_actor_pair of film_actor_pairs) {
             await bridge_film_actor_sync_with_sqlite(film_actor_pair, transactionManager);
         }
+        //add an entry to the sync_table
+        const sync_row = await add_table_record('film_actor', transactionManager);
+        console.log("sync_row", sync_row);
     })
 }
 

@@ -2,6 +2,7 @@
 import {getAllRepositoryDataMySql} from "./repository_data";
 import {incomingSourceDB, outgoingSourceDB} from "../data-source";
 import {dim_customer} from "../entity/dim_customer";
+import {add_table_record} from "../job/sync_job";
 
 export async function sync_customer_table(): Promise<void> {
     const customers  = await getAllRepositoryDataMySql('customer');
@@ -10,6 +11,10 @@ export async function sync_customer_table(): Promise<void> {
         for (const customer of customers) {
             await customer_sync_with_sqlite(customer, transactionManager);
         }
+
+        //add an entry to the sync_table
+        const sync_row = await add_table_record('customer', transactionManager);
+        console.log("sync_row", sync_row);
     })
 }
 
@@ -31,5 +36,12 @@ export async  function customer_sync_with_sqlite(row: any, manager: any): Promis
     dim_customer_instance.city = city;
     dim_customer_instance.last_update = new Date(row['last_update']);
     await manager.getRepository('dim_customer').save(dim_customer_instance);
+
+    const sync_row_address = await add_table_record('address', manager);
+    console.log("sync_row", sync_row_address);
+    const sync_row_city = await add_table_record('city', manager);
+    console.log("sync_row", sync_row_city);
+    const sync_row_country = await add_table_record('country', manager);
+    console.log("sync_row", sync_row_country);
 
 }

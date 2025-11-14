@@ -2,6 +2,7 @@
 import {getAllRepositoryDataMySql} from "./repository_data";
 import { outgoingSourceDB} from "../data-source";
 import {bridge_film_category} from "../entity/bridge_film_category";
+import {add_table_record} from "../job/sync_job";
 
 export async function sync_bridge_film_category_table(): Promise<void> {
     const film_category_pairs  = await getAllRepositoryDataMySql('film_category');
@@ -9,6 +10,9 @@ export async function sync_bridge_film_category_table(): Promise<void> {
         for (const film_category_pair of film_category_pairs) {
             await bridge_film_category_sync_with_sqlite(film_category_pair, transactionManager);
         }
+
+        const sync_row = await add_table_record('film_category', transactionManager);
+        console.log("sync_row", sync_row);
     })
 }
 

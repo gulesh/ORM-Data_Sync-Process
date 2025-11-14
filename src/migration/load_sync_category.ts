@@ -2,6 +2,7 @@
 import {getAllRepositoryDataMySql} from "./repository_data";
 import {dim_category} from "../entity/dim_category";
 import {outgoingSourceDB} from "../data-source";
+import {add_table_record} from "../job/sync_job";
 
 export async function sync_category_table(): Promise<void> {
     const categories  = await getAllRepositoryDataMySql('category');
@@ -10,6 +11,10 @@ export async function sync_category_table(): Promise<void> {
         for (const category of categories) {
             await category_sync_with_sqlite(category, transactionManager);
         }
+
+        //add an entry to the sync_table
+        const sync_row = await add_table_record('category', transactionManager);
+        console.log("sync_row", sync_row);
     })
 }
 

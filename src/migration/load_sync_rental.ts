@@ -3,6 +3,7 @@ import {getAllRepositoryDataMySql} from "./repository_data";
 import {incomingSourceDB, outgoingSourceDB} from "../data-source";
 import {fact_rental} from "../entity/fact_rental";
 import {add_dim_date} from "../add_dim_date"
+import {add_table_record} from "../job/sync_job";
 
 export async function sync_rental_table(): Promise<void> {
     const rentals  = await getAllRepositoryDataMySql('rental');
@@ -13,6 +14,9 @@ export async function sync_rental_table(): Promise<void> {
                 await rental_sync_with_sqlite(rental, transactionManager);
             }
         }
+        //add an entry to the sync_table
+        const sync_row = await add_table_record('rental', transactionManager);
+        console.log("sync_row", sync_row);
     })
 }
 
@@ -46,4 +50,8 @@ export async  function rental_sync_with_sqlite(row: any, manager: any): Promise<
         fact_rental_instance.rental_duration_days = dim_date_key_returned.date_key - dim_date_key_rented.date_key;
     }
     await outgoingSourceDB.manager.getRepository('fact_rental').save(fact_rental_instance);
+
+    //add an entry to the sync_table
+    const sync_row = await add_table_record('inventory', manager);
+    console.log("sync_row", sync_row);
 }

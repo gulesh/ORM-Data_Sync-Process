@@ -2,6 +2,7 @@
 import {getAllRepositoryDataMySql} from "./repository_data";
 import {outgoingSourceDB} from "../data-source";
 import {dim_actor} from "../entity/dim_actor";
+import {add_table_record} from "../job/sync_job";
 
 export async function sync_actor_table(): Promise<void> {
     const actors  = await getAllRepositoryDataMySql('actor');
@@ -9,6 +10,9 @@ export async function sync_actor_table(): Promise<void> {
         for (const actor of actors) {
             await actor_sync_with_sqlite(actor, transactionManager);
         }
+        //add an entry to the sync_table
+        const sync_row = await add_table_record('actor', transactionManager);
+        console.log("sync_row", sync_row);
     })
 }
 
