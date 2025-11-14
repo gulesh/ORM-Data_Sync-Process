@@ -24,7 +24,7 @@ export async function update_customer_table(): Promise<void> {
 }
 
 export async  function add_update_customer(row: any, manager: any): Promise<void> {
-    const customer_record: dim_customer =  await manager.getRepository('dim_customer').findOneBy({actor_id: row['category_id']});
+    const customer_record: dim_customer =  await manager.getRepository('dim_customer').findOneBy({customer_id: row['customer_id']});
     if(customer_record){
         if(!compareRecordField(customer_record.first_name, row['first_name']))
         {
@@ -54,7 +54,7 @@ export async  function add_update_customer(row: any, manager: any): Promise<void
         {
             customer_record.last_update = new Date(row['last_update']);
         }
-        await manager.getRepository('dim_category').save(customer_record);
+        await manager.getRepository('dim_customer').save(customer_record);
     }
     else
     {

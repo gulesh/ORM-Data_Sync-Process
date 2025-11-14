@@ -24,7 +24,7 @@ export async function update_film_table(): Promise<void> {
 }
 
 export async  function add_update_film(row: any, manager: any): Promise<void> {
-    const film_record: dim_film =  await manager.getRepository('dim_customer').findOneBy({actor_id: row['category_id']});
+    const film_record: dim_film =  await manager.getRepository('dim_film').findOneBy({film_id: row['film_id']});
     if(film_record){
         if(!compareRecordField(film_record.title, row['title']))
         {

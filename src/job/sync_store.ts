@@ -41,7 +41,7 @@ export async  function add_update_store(row: any, manager: any): Promise<void> {
         {
             store_record.last_update = new Date(row['last_update']);
         }
-        await manager.getRepository('dim_film').save(store_record);
+        await manager.getRepository('dim_store').save(store_record);
     }
     else
     {
