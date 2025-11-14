@@ -27,6 +27,7 @@ import {fact_payment} from "./entity/fact_payment";
 import {bridge_film_actor} from "./entity/bridge_film_actor";
 import {bridge_film_category} from "./entity/bridge_film_category";
 import {sync_table} from "./entity/sync_table";
+import {sync_log} from "./entity/sync_log";
 
 dotenv.config();
 
@@ -51,7 +52,7 @@ export const outgoingSourceDB = new DataSource({
     synchronize: true,
     logging: false,
     entities: [dim_actor, dim_category, dim_customer, dim_date, dim_film, dim_store, fact_payment, fact_rental, bridge_film_actor
-    , bridge_film_category, sync_table],
+    , bridge_film_category, sync_table, sync_log],
     migrations: [],
     subscribers: [],
 })
