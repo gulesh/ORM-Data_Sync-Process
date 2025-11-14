@@ -3,7 +3,6 @@ import {incomingSourceDB, outgoingSourceDB} from "../data-source";
 export const initCommand = async (): Promise<boolean> => {
     let result = false;
     initializeDatabases().then(async () => {
-        console.log("Initialization successful!")
         result = true;
     }).catch((e: Error) => {
         console.log('error:', e);

@@ -12,8 +12,6 @@ export async function table_validation(table_source: string, table_target:string
         sync_log_instance.source_table_name = table_source;
         sync_log_instance.target_table_name = table_target;
 
-
-
         const sourceCount = records_source?.length ?? 0;
         const targetCount = records_target?.length ?? 0;
         const difference = Math.abs(sourceCount - targetCount);
@@ -32,8 +30,7 @@ export async function table_validation(table_source: string, table_target:string
 
         sync_log_instance.sync_status = sync_status_local;
 
-
-        console.log("sync_status_local", sync_log_instance);
+        console.log("sync status (", table_source, table_target, "): ", sync_status_local );
 
         await outgoingSourceDB.manager.getRepository('sync_log').save(sync_log_instance);
 

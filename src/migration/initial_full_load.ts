@@ -9,7 +9,7 @@ import {sync_bridge_film_category_table} from "./load_sync_bridge_film_category"
 import {sync_bridge_film_actor_table} from "./load_sync_bridge_film_actor";
 
 export async function initial_full_load(): Promise<void> {
-    console.log("initial_full_load Starting...");
+    console.log("initial_full_load started.");
 
     await sync_category_table();
     console.log("categories loaded");

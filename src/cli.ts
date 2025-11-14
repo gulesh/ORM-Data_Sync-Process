@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
-
 import * as readline from "readline";
 import {initCommand} from "./commands/init";
+import {full_load_command} from "./commands/full-load";
+import {incremental} from "./commands/incremental";
+import {validate} from "./commands/validate";
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -18,14 +20,21 @@ rl.on("line", (line) => {
     const args = line.trim().split(" ");
     const command = args[0];
     let init_status = false;
+    let full_load_status = false;
 
     switch (command) {
         case "init":
             try {
-                initCommand().then((result)=> {
-                    init_status = result;
-                    console.log(`init successful: ${result}`);
-                });
+                if(init_status){
+                    initCommand().then((result)=> {
+                        init_status = result;
+                        console.log(`init successful: ${result}`);
+                    });
+                } else
+                {
+                    console.log(`database already initialized`);
+                }
+
             } catch (err) {
                 console.error("Init failed:", err);
             }
@@ -33,7 +42,14 @@ rl.on("line", (line) => {
         case "full-load":
             try{
                 if(init_status){
-                    console.log("Initializing full load...");
+                    if(!full_load_status)
+                    {
+                        console.log("Initializing full load...");
+                        full_load_command().then((result)=> {
+                            full_load_status = result;
+                            console.log(`full load successful: ${result}`);
+                        })
+                    }
                 } else
                 {
                     console.log("run command \'init\' first!");
@@ -43,10 +59,34 @@ rl.on("line", (line) => {
             }
             break;
         case "incremental":
-            console.log("Incremental executed...");
+            try{
+                if(init_status){
+                    console.log("Initializing sync...");
+                    incremental().then((result)=> {
+                        console.log(`sync successful: ${result}`);
+                    })
+                } else
+                {
+                    console.log("run command \'init\' first!");
+                }
+            } catch (e){
+                console.error("full load failed:", e);
+            }
             break;
         case "validate":
-            console.log("Validate executed...");
+            try{
+                if(init_status){
+                    console.log("validating data...");
+                    validate().then((result)=> {
+                        console.log(`validation successful: ${result}`);
+                    })
+                } else
+                {
+                    console.log("run command \'init\' first!");
+                }
+            } catch (e){
+                console.error("validation failed:", e);
+            }
             break;
         case "exit":
             rl.close();
