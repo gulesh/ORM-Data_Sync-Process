@@ -5,8 +5,6 @@ export async function table_validation(table_source: string, table_target:string
         const records_source = await incomingSourceDB.manager.getRepository(table_source).find({})
         const records_target = await outgoingSourceDB.manager.getRepository(table_target).find({})
 
-        console.log("table_source", records_source.length);
-        console.log("records_target", records_target.length);
         const sync_log_instance = new sync_log();
         sync_log_instance.sync_date = new Date(Date.now());
         sync_log_instance.source_table_name = table_source;
@@ -24,13 +22,19 @@ export async function table_validation(table_source: string, table_target:string
             sync_status_local = "failed";
         } else if (sourceCount > 0) {
             const discrepancy = (difference * 100) / sourceCount;
-            if (discrepancy > 0 && discrepancy < 5) sync_status_local = "warning";
-            else if (discrepancy >= 5) sync_status_local = "failed";
+            if (discrepancy > 0 && discrepancy < 5) {
+                sync_status_local = "warning";
+                console.warn(`${discrepancy} records are missing!`);
+            }
+            else if (discrepancy >= 5)
+            {
+                sync_status_local = "failed";
+                console.error(`${discrepancy} records are missing! Raising critical error!`);
+            }
         }
-
         sync_log_instance.sync_status = sync_status_local;
 
-        console.log("sync status (", table_source, table_target, "): ", sync_status_local );
+        console.log("sync status (", table_source, ":", sourceCount, ",", table_target, ":", targetCount, "): ", sync_status_local );
 
         await outgoingSourceDB.manager.getRepository('sync_log').save(sync_log_instance);
 

@@ -15,7 +15,7 @@ const rl = readline.createInterface({
     prompt: "orm-cli> "
 });
 
-console.log("CLI ready. Type exit to quit.")
+console.log("Welcome to ORM-CLI...!!!. Type a command- init, full-load, validate, incremental or exit.")
 rl.prompt();
 
 
@@ -58,9 +58,9 @@ rl.on("line", async (line) => {
             break;
         case "incremental":
             try{
-                if(init_status){
+                if(init_status && full_load_status){
                     console.log("Initializing sync...");
-                    const status = await incremental();;
+                    const status = await incremental();
                     console.log(`sync successful: ${status}`);
                 } else
                 {

@@ -1,4 +1,4 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, Index, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity("fact_rental")
 export class fact_rental {
@@ -11,13 +11,17 @@ export class fact_rental {
     @Column({nullable: true})
     date_key_rented: number;
     @Column()
+    @Index()
     film_key: number;
     @Column()
+    @Index()
     store_key: number;
     @Column()
+    @Index()
     customer_key: number;
     @Column()
     staff_id: number;
     @Column({nullable: true})
+    @Index()
     rental_duration_days: number;
 }

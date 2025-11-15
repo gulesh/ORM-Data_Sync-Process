@@ -44,5 +44,4 @@ export async  function add_update_actor(row: any, manager: any): Promise<void> {
     {
         await actor_sync_with_sqlite(row, manager);
     }
-
 }

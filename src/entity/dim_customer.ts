@@ -1,4 +1,4 @@
-import {Column, Entity, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, Index, ListIndexesCursor, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity("dim_customer")
 export class dim_customer {
@@ -11,10 +11,13 @@ export class dim_customer {
     @Column()
     last_name: string;
     @Column()
+    @Index()
     active: boolean;
     @Column()
+    @Index()
     city: string;
     @Column()
+    @Index()
     country: string;
     @Column()
     last_update: Date;

@@ -1,4 +1,4 @@
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, Index, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {bridge_film_actor} from "./bridge_film_actor";
 import {bridge_film_category} from "./bridge_film_category";
 
@@ -11,12 +11,15 @@ export class dim_film {
     @Column()
     title: string;
     @Column()
+    @Index()
     rating: string;
     @Column()
     length: number;
     @Column()
+    @Index()
     language: string;
     @Column()
+    @Index()
     release_year: number;
     @Column()
     last_update: Date;

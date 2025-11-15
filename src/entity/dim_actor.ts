@@ -1,6 +1,7 @@
-import {Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, Index, OneToMany, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
 import {bridge_film_actor} from "./bridge_film_actor";
 
+@Index(['first_name', 'last_name'])
 @Entity("dim_actor")
 export class dim_actor {
     @Column()
