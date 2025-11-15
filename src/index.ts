@@ -1,4 +1,4 @@
-import { incomingSourceDB, outgoingSourceDB } from "./data-source"
+
 import {initCommand} from "./commands/init";
 import {full_load_command} from "./commands/full-load";
 import {validate} from "./commands/validate";
