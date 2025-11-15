@@ -6,6 +6,8 @@ import {update_film_table} from "./sync_film";
 import {update_store_table} from "./sync_store";
 import {update_payment_table} from "./sync_payment";
 import {update_rental_table} from "./sync_rentals";
+import {update_bridge_film_actor_table} from "./sync_bridge_film_actor";
+import {update_bridge_film_category_table} from "./sync_bridge_film_category";
 
 
 export async function sync_job(){
@@ -31,6 +33,12 @@ export async function sync_job(){
 
     await update_rental_table();
     console.log("synced rental table!");
+
+    await update_bridge_film_actor_table();
+    console.log("synced bridge_film_actor table!");
+
+    await update_bridge_film_category_table();
+    console.log("synced bridge_film_category table!");
 
 }
 
