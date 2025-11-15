@@ -33,7 +33,6 @@ rl.on("line", async (line) => {
                 {
                     console.log(`database already initialized`);
                 }
-
             } catch (err) {
                 console.error("Init failed:", err);
             }
