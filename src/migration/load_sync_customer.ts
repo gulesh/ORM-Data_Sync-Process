@@ -22,14 +22,19 @@ export async  function customer_sync_with_sqlite(row: any, manager: any): Promis
     let addressObject = await incomingSourceDB.manager.getRepository('address').findBy({address_id: row['address_id']});
     let cityObject = await incomingSourceDB.manager.getRepository('city').findBy({city_id: addressObject[0]['city_id']});
     let countryObject = await incomingSourceDB.manager.getRepository('country').findBy({country_id: cityObject[0]['country_id']});
-    const dim_customer_instance = new dim_customer();
-    dim_customer_instance.customer_id = row['customer_id'];
-    dim_customer_instance.first_name = row['first_name'];
-    dim_customer_instance.last_name = row['last_name'];
-    dim_customer_instance.active = row['active'];
-    dim_customer_instance.country = countryObject[0]['country'];
-    dim_customer_instance.city = cityObject[0]['city'];
-    dim_customer_instance.last_update = new Date(row['last_update']);
-    await manager.getRepository('dim_customer').save(dim_customer_instance);
+
+    const customer_record: dim_customer =  await manager.getRepository('dim_customer').findOneBy({customer_id: row['customer_id']});
+    if (!customer_record) {
+        const dim_customer_instance = new dim_customer();
+        dim_customer_instance.customer_id = row['customer_id'];
+        dim_customer_instance.first_name = row['first_name'];
+        dim_customer_instance.last_name = row['last_name'];
+        dim_customer_instance.active = row['active'];
+        dim_customer_instance.country = countryObject[0]['country'];
+        dim_customer_instance.city = cityObject[0]['city'];
+        dim_customer_instance.last_update = new Date(row['last_update']);
+        await manager.getRepository('dim_customer').save(dim_customer_instance);
+    }
+
 
 }

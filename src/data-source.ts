@@ -39,6 +39,7 @@ export const incomingSourceDB = new DataSource({
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
     synchronize: false,
+    timezone: "Z",
     logging: false,
     entities: [actor, address, category, city, country, customer, film, film_actor, film_category, inventory, language,
         payment, rental, staff, store],

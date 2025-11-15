@@ -23,11 +23,14 @@ export async  function store_sync_with_sqlite(row: any, manager: any): Promise<v
     let cityObject = await incomingSourceDB.manager.getRepository('city').findBy({city_id: addressObject[0]['city_id']});
     let countryObject = await incomingSourceDB.manager.getRepository('country').findBy({country_id: cityObject[0]['country_id']});
 
-    const dim_store_instance = new dim_store();
-    dim_store_instance.store_id = row['store_id'];
-    dim_store_instance.city = cityObject[0]['city'];
-    dim_store_instance.country = countryObject[0]['country'];
-    dim_store_instance.last_update = new Date(row['last_update']);
-    await manager.getRepository('dim_store').save(dim_store_instance);
+    const store_record: dim_store =  await manager.getRepository('dim_store').findOneBy({store_id: row['store_id']});
+    if (!store_record) {
+        const dim_store_instance = new dim_store();
+        dim_store_instance.store_id = row['store_id'];
+        dim_store_instance.city = cityObject[0]['city'];
+        dim_store_instance.country = countryObject[0]['country'];
+        dim_store_instance.last_update = new Date(row['last_update']);
+        await manager.getRepository('dim_store').save(dim_store_instance);
+    }
 
 }

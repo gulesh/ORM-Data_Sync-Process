@@ -43,7 +43,7 @@ rl.on("line", async (line) => {
                     if(!full_load_status)
                     {
                         console.log("Initializing full load...");
-                       const full_load_status =  await full_load_command();
+                       full_load_status =  await full_load_command();
                        console.log(`full load successful: ${full_load_status}`);
 
                     }

@@ -17,12 +17,16 @@ export async function sync_actor_table(): Promise<void> {
 }
 
 export async  function actor_sync_with_sqlite(row: any, manager: any): Promise<void> {
+    const actor_record: dim_actor =  await manager.getRepository('dim_actor').findOneBy({actor_id: row['actor_id']});
+    if(!actor_record)
+    {
+        const dim_actor_instance = new dim_actor();
+        dim_actor_instance.actor_id = row['actor_id'];
+        dim_actor_instance.first_name = row['first_name'];
+        dim_actor_instance.last_name = row['last_name'];
+        dim_actor_instance.last_update = new Date(row['last_update']);
+        await manager.getRepository('dim_actor').save(dim_actor_instance);
+    }
 
-    const dim_actor_instance = new dim_actor();
-    dim_actor_instance.actor_id = row['actor_id'];
-    dim_actor_instance.first_name = row['first_name'];
-    dim_actor_instance.last_name = row['last_name'];
-    dim_actor_instance.last_update = new Date(row['last_update']);
-    await manager.getRepository('dim_actor').save(dim_actor_instance);
 
 }
