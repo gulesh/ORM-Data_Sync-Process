@@ -13,16 +13,23 @@
 
 # Using the CLI:
 
-1. Basic set up steps...TBD 
-2. run this command in terminal- npm run build
-3. Next, make cli.js inside build executable using: chmod +x build/cli.js
-4. register cli globally, using npm link
-5. check if the registration was successful with : which orm-cli
-6. type. orm-cli and hit enter to run the cli
-7. Now, you have access to following commands:
-   1. init
-   2. full-load
-   3. incremental
-   4. validate
-   5. exit
+1. Run this command in terminal: `npm run build`
+
+2. Next, make `cli.js` inside `build` executable using:  
+   `chmod +x build/cli.js`
+
+3. Register CLI globally using:  
+   `npm link`
+
+4. Check if the registration was successful with:  
+   `which orm-cli`
+
+5. Type `orm-cli` and hit enter to run the CLI
+
+6. Now, you have access to the following commands:
+    1. `init`
+    2. `full-load`
+    3. `incremental`
+    4. `validate`
+    5. `exit`
 
