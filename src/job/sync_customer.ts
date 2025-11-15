@@ -8,9 +8,10 @@ import {customer_sync_with_sqlite} from "../migration/load_sync_customer";
 export async function update_customer_table(): Promise<void> {
 
     let sync_table_record = await outgoingSourceDB.manager.getRepository('sync_table').findOneBy({table_name: 'customer'});
-    const last_sync_date = sync_table_record ? sync_table_record.last_sync_date : new Date(0);
+    const last_sync_date = sync_table_record ? sync_table_record.last_sync_time : new Date(0);
+    const oneHourBeforeLastSync = new Date(last_sync_date.getTime() - 60 * 60 * 1000);
     const customers = await incomingSourceDB.manager.getRepository('customer').find({
-        where: { last_update: MoreThan(last_sync_date) }
+        where: { last_update: MoreThan(oneHourBeforeLastSync) }
     });
 
     await outgoingSourceDB.manager.transaction( async (transactionManager) => {

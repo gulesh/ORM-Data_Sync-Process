@@ -42,13 +42,20 @@ export async function sync_job(){
 
 }
 
+
+// Helper to get current UTC Date
+function nowUTC(): Date {
+    const now = new Date();
+    return new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+}
+
 export async function add_table_record(tableName: string, manager:any){
     let sync_table_record = await manager.getRepository('sync_table').findOneBy({ table_name: tableName })
     if(!sync_table_record){
         //add an entry
         const sync_table_instance = new sync_table();
         sync_table_instance.table_name = tableName;
-        sync_table_instance.last_sync_time = new Date(Date.now());
+        sync_table_instance.last_sync_time = nowUTC();
         sync_table_record = await manager.getRepository('sync_table').save(sync_table_instance);
     }
     return sync_table_record;
@@ -56,7 +63,7 @@ export async function add_table_record(tableName: string, manager:any){
 
 export async function update_table_record(tableName: string, manager:any){
     let sync_table_record: sync_table = await manager.getRepository('sync_table').findOneBy({ table_name: tableName })
-    sync_table_record.last_sync_time = new Date(Date.now());
+    sync_table_record.last_sync_time = nowUTC();
     sync_table_record = await manager.getRepository('sync_table').save(sync_table_record);
     return sync_table_record;
 }

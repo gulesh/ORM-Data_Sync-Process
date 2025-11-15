@@ -9,7 +9,7 @@ import {add_dim_date} from "../add_dim_date";
 export async function update_payment_table(): Promise<void> {
 
     let sync_table_record = await outgoingSourceDB.manager.getRepository('sync_table').findOneBy({table_name: 'payment'});
-    const last_sync_date = sync_table_record ? sync_table_record.last_sync_date : new Date(0);
+    const last_sync_date = sync_table_record ? sync_table_record.last_sync_time : new Date(0);
     const payments = await incomingSourceDB.manager.getRepository('payment').find({
         where: { last_update: MoreThan(last_sync_date) }
     });

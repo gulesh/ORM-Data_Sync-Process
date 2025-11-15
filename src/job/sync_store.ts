@@ -8,7 +8,7 @@ import {store_sync_with_sqlite} from "../migration/load_sync_store";
 export async function update_store_table(): Promise<void> {
 
     let sync_table_record = await outgoingSourceDB.manager.getRepository('sync_table').findOneBy({table_name: 'store'});
-    const last_sync_date = sync_table_record ? sync_table_record.last_sync_date : new Date(0);
+    const last_sync_date = sync_table_record ? sync_table_record.last_sync_time : new Date(0);
     const stores = await incomingSourceDB.manager.getRepository('store').find({
         where: { last_update: MoreThan(last_sync_date) }
     });

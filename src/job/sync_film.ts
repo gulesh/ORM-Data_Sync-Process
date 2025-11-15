@@ -8,7 +8,7 @@ import {film_sync_with_sqlite} from "../migration/load_sync_film";
 export async function update_film_table(): Promise<void> {
 
     let sync_table_record = await outgoingSourceDB.manager.getRepository('sync_table').findOneBy({table_name: 'film'});
-    const last_sync_date = sync_table_record ? sync_table_record.last_sync_date : new Date(0);
+    const last_sync_date = sync_table_record ? sync_table_record.last_sync_time : new Date(0);
     const films = await incomingSourceDB.manager.getRepository('film').find({
         where: { last_update: MoreThan(last_sync_date) }
     });

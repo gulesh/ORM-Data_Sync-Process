@@ -9,7 +9,7 @@ import {fact_rental} from "../entity/fact_rental";
 export async function update_rental_table(): Promise<void> {
 
     let sync_table_record = await outgoingSourceDB.manager.getRepository('sync_table').findOneBy({table_name: 'rental'});
-    const last_sync_date = sync_table_record ? sync_table_record.last_sync_date : new Date(0);
+    const last_sync_date = sync_table_record ? sync_table_record.last_sync_time : new Date(0);
     const payments = await incomingSourceDB.manager.getRepository('rental').find({
         where: { last_update: MoreThan(last_sync_date) }
     });

@@ -40,13 +40,10 @@ rl.on("line", async (line) => {
         case "full-load":
             try{
                 if(init_status){
-                    if(!full_load_status)
-                    {
-                        console.log("Initializing full load...");
-                       full_load_status =  await full_load_command();
-                       console.log(`full load successful: ${full_load_status}`);
+                    console.log("Initializing full load...");
+                    full_load_status =  await full_load_command();
+                    console.log(`full load successful: ${full_load_status}`);
 
-                    }
                 } else
                 {
                     console.log("run command \'init\' first!");

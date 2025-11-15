@@ -7,7 +7,7 @@ import {bridge_film_category_sync_with_sqlite} from "../migration/load_sync_brid
 export async function update_bridge_film_category_table(): Promise<void> {
 
     const sync_table_record = await outgoingSourceDB.manager.getRepository('sync_table').findOneBy({table_name: 'film_category'});
-    const last_sync_date = sync_table_record ? sync_table_record.last_sync_date : new Date(0);
+    const last_sync_date = sync_table_record ? sync_table_record.last_sync_time : new Date(0);
     const film_categories_entries = await incomingSourceDB.manager.getRepository('film_category').find({
         where: { last_update: MoreThan(last_sync_date) }
     });
