@@ -4,15 +4,6 @@ import {full_load_command} from "./commands/full-load";
 import {validate} from "./commands/validate";
 import {incremental} from "./commands/incremental";
 
-
-async function initializeDatabases() {
-    console.log("Initializing databases!");
-    await incomingSourceDB.initialize();
-    await outgoingSourceDB.initialize();
-    console.log("Database initialized!")
-}
-
-
 async function run() {
     const init_run = await initCommand();
     if(init_run) {
